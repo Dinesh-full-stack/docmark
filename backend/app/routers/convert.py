@@ -1,7 +1,9 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, Body
+from fastapi import APIRouter, UploadFile, File, HTTPException
+from pydantic import BaseModel
 from app.services.csv_excel import convert_file_to_markdown
 from app.services.docx_converter import convert_docx_to_markdown
 from app.services.html_converter import convert_html_to_markdown
+from app.services.text_converter import convert_text_to_markdown
 
 router = APIRouter(prefix="/api/convert", tags=["convert"])
 
@@ -10,6 +12,9 @@ ALLOWED_TABULAR_TYPES = {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/vnd.ms-excel",
 }
+
+class TextInput(BaseModel):
+    text: str
 
 @router.post("/csv-excel")
 async def convert_csv_excel(file: UploadFile = File(...)):
@@ -35,11 +40,21 @@ async def convert_docx(file: UploadFile = File(...)):
     return {"filename": file.filename, "markdown": markdown}
 
 @router.post("/html")
-async def convert_html(html: str = Body(..., embed=True)):
-    if not html.strip():
+async def convert_html(payload: TextInput):
+    if not payload.text.strip():
         raise HTTPException(status_code=400, detail="HTML content cannot be empty.")
     try:
-        markdown = convert_html_to_markdown(html)
+        markdown = convert_html_to_markdown(payload.text)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
+    return {"markdown": markdown}
+
+@router.post("/text")
+async def convert_text(payload: TextInput):
+    if not payload.text.strip():
+        raise HTTPException(status_code=400, detail="Text content cannot be empty.")
+    try:
+        markdown = convert_text_to_markdown(payload.text)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
     return {"markdown": markdown}
