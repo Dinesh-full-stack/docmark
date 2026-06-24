@@ -14,7 +14,17 @@ export default function Logo({ size = 32, showText = true, textSize = "text-xl" 
           strokeLinecap="round" strokeLinejoin="round" fill="none" />
       </svg>
       {showText && (
-        <span className={`font-extrabold tracking-tight text-gray-900 ${textSize}`}>Markify</span>
+        <span
+          className={`font-extrabold tracking-tight ${textSize}`}
+          style={{
+            background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Markify
+        </span>
       )}
     </div>
   );

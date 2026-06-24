@@ -1,0 +1,21 @@
+# Railway monorepo config — defines two services: backend and frontend
+# Docs: https://docs.railway.app/reference/config-as-code
+
+[build]
+  builder = "DOCKERFILE"
+
+# Each service is configured in the Railway dashboard:
+#
+# SERVICE: docmark-backend
+#   Root Directory: backend
+#   Dockerfile:     backend/Dockerfile
+#   Port:           8000
+#   Env vars:
+#     ALLOWED_ORIGINS=https://<your-frontend-url>.up.railway.app
+#
+# SERVICE: docmark-frontend
+#   Root Directory: frontend
+#   Dockerfile:     frontend/Dockerfile
+#   Port:           80
+#   Env vars:
+#     BACKEND_URL=https://<your-backend-url>.up.railway.app

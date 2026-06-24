@@ -4,7 +4,7 @@ import Logo from "./components/Logo";
 function Header() {
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div className="w-full px-6 py-3 flex items-center justify-between">
         <Logo size={34} textSize="text-lg" />
         <nav className="flex items-center gap-4">
           <a href="#converter" className="text-sm text-gray-500 hover:text-indigo-600 transition-colors hidden sm:block">Convert</a>
